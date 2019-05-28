@@ -1,0 +1,216 @@
+1) HIDS vs NIDS 
+
+HIDS is host intrusion detection system - placed on each host
+NIDS is network intrusion detection system - placed in the network
+Both the systems work on the similar lines. It’s just that the placement in different. 
+For an enterprise, NIDS is preferred as HIDS is difficult to manage, plus it consumes processing power of the host as well.
+
+----------------------------------------------------------------------------------------------------------
+
+2) How does tracert/traceroute work? What protocol does it use?
+In case you can’t ping the final destination, tracert will help to identify where the connection stops or gets broken, whether it is 
+firewall, ISP, router etc.
+It actually keeps sending packets to the final destination; the only change is the TTL that’s used. The extra credit is the fact that 
+Windows uses ICMP by default while Linux uses UDP
+
+The Time To Live (TTL) field in an IP header was intended to hold the number of seconds for which the IP packet is valid, after which 
+it can be dropped. In practice, it is used as a decrementing hop count, whereby every router that forwards the packet reduces the TTL 
+value by one.
+
+IP Packet Headers: Source, Destination, TimetoLive (TTL)
+When TTL=0, router sends a message says "I dropped the packets"
+
+----------------------------------------------------------------------------------------------------------
+
+3) DDoS and its mitigation?
+
+DDoS= distributed denial of service. 
+When a network/server/application is flooded with large number of requests which it is not designed to handle making the server 
+unavailable to the legitimate requests. 
+
+Common DDoS attacks types
+UDP Flood: Flooding a target's random ports on a remote host with UDP packets and causing the host to repeatedly check for the 
+application listening at that port, and (when no application is found) reply with an ICMP ‘Destination Unreachable’ packet. 
+
+ICMP (Ping) Flood: Overwhelming the target resource with ICMP Echo Request (ping) packets, by sending packets as fast as possible 
+without waiting for replies. This type of attack can consume both outgoing and incoming bandwidth, since the victim’s servers will 
+often attempt to respond with ICMP Echo Reply packets, resulting a significant overall system slowdown.
+
+SYN Flood: The requester sends multiple SYN requests, but either does not respond to the host’s SYN-ACK response, or sends the 
+SYN requests from a spoofed IP address. Either way, the host system continues to wait for acknowledgement for each of the requests, 
+binding resources until no new connections can be made, and ultimately resulting in denial of service
+
+Ping of Death: Sending IP packet which is larger than 65,535 bytes that results in overflow of memory buffers allocated for the packet, 
+causing denial of service for legitimate packets.
+
+NTP Amplification: Exploits publicly-accessible NTP servers to overwhelm a targeted server with UDP traffic.
+HTTP Flood: Exploits seemingly-legitimate HTTP GET or POST requests to attack a web server or application
+
+#	  Layer	     Application	       Description	                                  Vector Example
+7	 Application	 Data	      Network process to application	                      HTTP floods, DNS query floods
+6	 Presentation	 Data	      Data representation and encryption	                  SSL abuse
+5	 Session	     Data	      Interhost communication	                              N/A
+4	 Transport	   Segments	  End-to-end connections and reliability	              SYN floods
+3	 Network	     Packets	  Path determination and logical addressing	            UDP reflection attacks
+2	 Datalinks	   Frames	    Physical addressing	                                  N/A
+1	 Physical	     Bits	      Media, signal, and binary transmission	              N/A
+
+
+Prevention Techniques:
+Firewall and ACLs (Access Control Lists)
+Analyze traffic formal abnormalities
+Deploy application firewalls
+
+----------------------------------------------------------------------------------------------------------
+
+4) What port does ping work over?
+ICMP is a layer 3 protocol (it doesn’t work over a port) -Also, TCP and UDP are layer 4 protocols and not related to ping.
+
+----------------------------------------------------------------------------------------------------------
+
+5) Do you prefer filtered ports or closed ports?
+Closed Port: If you send a SYN to a closed port, it will respond back with a RST.
+Filtered Port: Presumably, the host is behind some sort of firewall. Here, the packet is simply dropped and you receive no response 
+(not even a RST).
+Open Port: If you send a SYN to an open port, you would expect to receive SYN/ACK.
+
+Different Cases  to Choose
+Choose Closed Port: If the clients are waiting for the server answer and they were configured with a high connection timeout. 
+Reject the connections, because external clients can display a quickly “Unable to connect” message.
+Choose Filtered Ports: If your server is used as website that can be targeted by a DDoS attacks then choose the “DROP” policy because 
+in this way your firewall is not going to consume CPU and bandwidth answering about the state of the port (Sending back ICMP messages).
+
+----------------------------------------------------------------------------------------------------------
+
+6) How would you build the ultimate botnet? Best way to create a botnet?
+a blending of the words “robot” and “network”.
+To build a botnet, botmasters need as many infected online devices or “bots” under their command as possible. The more bots connected, 
+the bigger the botnet. The bigger the botnet, the bigger the impact. 
+Botnet Structures usually take one of two forms, and each structure is designed to give the botmaster as much control as possible.
+
+Client-server model: The client-server botnet structure is set up like a basic network with one main server controlling the transmission 
+of information from each client. The botmaster uses special software to establish command and control (C&C) servers to relay 
+instructions to each client device.
+
+Peer-to-peer: In a P2P botnet, each infected device functions as a client and a server. Individual bots have a list of other infected 
+devices and will seek them out to update and to transmit information between them. 
+
+Pro's of P2P:
+P2P botnet structures make it harder for law enforcement to locate any centralized source. 
+The lack of a single C&C server also makes P2P botnets harder to disrupt. 
+
+----------------------------------------------------------------------------------------------------------
+
+7) How does TOR network work?
+The Tor network runs through the computer servers of thousands of volunteers (over 4,500 at time of publishing) spread throughout the 
+world. Your data is bundled into an encrypted packet when it enters the Tor network. Then, unlike the case with normal Internet 
+connections, Tor strips away part of the packet's header, which is a part of the addressing information that could be used to learn 
+things about the sender such as the operating system from which the message was sent.
+Finally, Tor encrypts the rest of the addressing information, called the packet wrapper. Regular Internet connections don't do this. 
+
+----------------------------------------------------------------------------------------------------------
+
+8) What is ARP Poisoning? Which tools are used?
+ARP spoofing is a type of attack in which a malicious actor sends falsified ARP (Address Resolution Protocol) messages over a local area 
+network. This results in the linking of an attacker’s MAC address with the IP address of a legitimate computer or server on the network.
+Ettercap - Linux Arp poisoning and password sniffing tool
+Cain Abel - Windows network sniffing tool
+
+----------------------------------------------------------------------------------------------------------
+
+9) What is SNMP? What are the differences between public and private community strings?
+Simple Network Management Protocol.
+a standard way of monitoring hardware and software from nearly any manufacturer
+Required basic components to work:
+A management station: a software that collects information from your network
+An agent: it collects information, and then sends it to the monitoring station when polled
+
+SNMP versions: v1, v2c, and v3
+A major weakness of v1 and v2c: Community strings  (the equivalent of passwords) are transmitted in clear text and there is no support 
+for authentication
+
+Ports:
+UDP 161: Used when management stations communicate with agents
+UDP 162: Used when agents send unsolicited Traps to the management station
+
+OIDs (Object Identifier): SNMP works by querying “Objects”. An object is simply something that we can gather information about on a 
+network device. For instance, an object might be something like Interface Status. Querying Interface Status would return a variable – 
+the interface could be Up, or Down. SNMP identifies objects like with an Object Identifier, or OID.
+
+MIBs (Management Information Base): It is like a translator that helps a Management Station to understand SNMP responses obtained from 
+your network devices. All SNMP devices generally support something called MIB-2, which is a standard set of objects that can be 
+monitored. 
+
+Community Strings: They are like passwords and used to allow authorized users to access the SNMP agent on a device. Many admins never 
+change community strings from the defaults “Public” for read-only, and “Private” for read-write.
+
+To provide Security:
+Disable SNMP service if it is not required.
+If SNMP service is required, make sure that the default community strings are made complex.
+Make sure that SNMP service is not misconfigured with read-write authorization.
+
+----------------------------------------------------------------------------------------------------------
+
+10) What is OSI model and its layers?
+
+Trick to Remember: All people seem to need data processing
+
+Layer 7: Application - (End User Layer: HTTP, FTP, IRC, SSH, DNS)
+Layer 6: Presentation - (Syntax Layer: )
+Layer 5: Session - (Synch & send to port: APIs, Sockets, WinSock)
+Layer 4: Transport - (End-to-end Connections: TCP, UDP)
+Layer 3: Network - (Packets: IP, ICMP, IPSec)
+Layer 3: Data Link - (Frames: Ethernet, Switch, Bridge, PPP [point-to-point protocol])
+Layer 1: Physical - (Physical Structure: Fiber, Wireless, Hubs)
+
+----------------------------------------------------------------------------------------------------------
+
+11) Firewall on Layer 7 vs Layer 3? Which one is better?
+Layer 3: categorize traffic according to IP addresses, port numbers and service protocols. Layer 3 firewalls filter traffic based on 
+the TCP/IP stack
+
+Layer 7: Rather than simply blocking all traffic on a certain port, you could use an application firewall to accept traffic on that 
+port in general, but block any traffic that contains a known vulnerability (like an SQL injection attack or a malicious telnet command).
+
+Comment: The best model for most scenarios is to use multiple layers of defense in depth. Specifically, have an L3 firewall at the edge 
+that only allows inbound traffic on the specific ports your apps use. Those ports should then be routed to an L7 firewall for deep 
+inspect at the app protocol level. This model leverages the strengths of each approach with the L3 firewall efficiently dropping all 
+packets but those from allowed sources and destined to allowed ports, thus allowing the L7 firewall to focus exclusively on inspecting 
+the content of the requests to those ports. [quoted]
+
+----------------------------------------------------------------------------------------------------------
+
+12) How do you protect your Wireless Access Point?
+Use stronger encryption - WPA2
+Use a secure WPA password  
+Provide a separate network for guests
+Enable MAC authentication for your users
+
+----------------------------------------------------------------------------------------------------------
+
+13) TCP vs UDP
+Both TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are protocols used for sending bits of data — known as packets 
+— over the Internet. They both build on top of the Internet protocol. In other words, whether you are sending a packet via TCP or UDP, 
+that packet is sent to an IP address. These packets are treated similarly, as they are forwarded from your computer to intermediary 
+routers and on to the destination.
+
+TCP and UDP are not the only protocols that work on top of IP. However, they are the most widely used. The widely used term "TCP/IP" 
+refers to TCP over IP. 
+UDP over IP could just as well be referred to as "UDP/IP", although this is not a common term.
+
+TCP guarantees the recipient will receive the packets in order by numbering them. The recipient sends messages back to the sender saying
+it received the messages.
+
+When using UDP, packets are just sent to the recipient. The sender will not wait to make sure the recipient received the packet — it 
+will just continue sending the next packets. UDP is used when speed is desirable and error correction is not necessary. 
+
+----------------------------------------------------------------------------------------------------------
+
+14) What is the Three-way handshake? How can it be used to create a DOS attack?
+Host A sends a TCP SYNchronize packet to Host B
+Host B receives A's SYN
+Host B sends a SYNchronize-ACKnowledgement
+Host A receives B's SYN-ACK
+Host A sends ACKnowledge
+Host B receives ACK. 
+TCP socket connection is ESTABLISHED.
