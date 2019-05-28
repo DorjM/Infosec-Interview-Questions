@@ -173,9 +173,13 @@ certificate
 CAs (DigiCert, Comodo, LetsEncrypt) - create paired keys for websites to use to both verify that they are who they say they are, 
 and to encrypt traffic between a client and a server
 
+----------------------------------------------------------------------------------------------------
+
 15) X.509 certificates
 An X.509 certificate is a digital certificate that uses the widely accepted international X.509 public key infrastructure (PKI) 
 standard to verify that a public key belongs to the user, computer or service identity contained within the certificate.
+
+----------------------------------------------------------------------------------------------------
 
 16) Digital Certificates 
 A common use for public-key cryptography is encrypting application traffic using a Secure Socket Layer (SSL) by configuring Apache 
@@ -188,6 +192,8 @@ A CA is a trusted third party that has confirmed that the information contained 
 To set up a secure server using public-key cryptography, in most cases, you send your certificate request (including your public key), 
 proof of your company's identity, and payment to a CA. 
 The CA verifies the certificate request and your identity, and then sends back a certificate for your secure server.
+
+----------------------------------------------------------------------------------------------------
 
 17) Certificate Creation
 Create a private and public encryption key pair.
