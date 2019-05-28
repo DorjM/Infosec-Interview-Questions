@@ -1,0 +1,177 @@
+1) Encoding vs Encryption vs. Hashing
+
+Encoding: transforms data into another format using a scheme that is publicly available so that it can easily be reversed. It does not require a key as the only thing required to decode it is the algorithm that was used to encode it. (eg: ascii, unicode, URL Encoding, base64) - usability 
+
+Encryption: transforms data into another format in such a way that only specific individual(s) can reverse the transformation. It uses a key, which is kept secret, in conjunction with the plaintext and the algorithm, in order to perform the encryption operation. As such, the ciphertext, algorithm, and key are all required to return to the plaintext. (eg: AES, Blowfish, RSA) - confidentiality 
+
+Hashing: serves the purpose of ensuring integrity, (i.e. making it so that if something is changed you can know that it’s changed.) Technically, hashing takes arbitrary input and produce a fixed-length string and the process is not reversible. (eg: sha-3, md5) - integrity 
+
+----------------------------------------------------------------------------------------------------
+
+2) Asymmetric (Public-Key Cryptography) vs Symmetric encryption 
+
+Symmetric encryption: uses the same key for both encryption and decryption - much faster but the key needs to be transferred over an unencrypted channel
+Asymmetric encryption: uses different keys for encryption and decryption - more secure but slow
+
+Using a hybrid approach should be preferred. Setting up a channel using asymmetric encryption and then sending the data using symmetric process.
+
+----------------------------------------------------------------------------------------------------
+
+3) Examples of Symmetric Encryption Algorithms
+AES, DES, RC4, RC5, Blowfish
+
+----------------------------------------------------------------------------------------------------
+
+4) Examples of Asymmetric Encryption Algorithms
+Diffie Hellman, RSA
+
+----------------------------------------------------------------------------------------------------
+
+5) TLS Use Asymmetric or Symmetric Encryption?
+used to secure the data that travels between a web browser and website via HTTPS
+initial exchange is done using asymmetric and that bulk data encryption requires speed and therefore symmetric algorithms.
+
+---------------------------------------------------------------------------------------------------
+
+6) How does  Asymmetric (Public-Key Cryptography) encryption Works?
+Sender encrypts the message using receiver's public key, Receiver decrypts the message using his own private key
+
+----------------------------------------------------------------------------------------------------
+
+7) TLS Session Set-UP
+
+1.The SSL or TLS client sends a "client hello message" that lists cryptographic information such as the SSL or TLS version and, in the client's order of preference, the CipherSuites supported by the client.
+2.The SSL or TLS server responds with a "server hello message" that contains the CipherSuite chosen by the server from the list provided by the client, the session ID, and another random byte string. The server also sends its digital certificate. If the server requires a digital certificate for client authentication, the server sends a client certificate request that includes a list of the types of certificates supported and the Distinguished Names of acceptable Certification Authorities (CAs).
+3.The SSL or TLS client verifies the server's digital certificate. For more information, see How SSL and TLS provide identification, authentication, confidentiality, and integrity.
+4.The SSL or TLS client sends the random byte string that enables both the client and the server to compute the secret key to be used for encrypting subsequent message data. The random byte string itself is encrypted with the server's public key.
+5.If the SSL or TLS server sent a client certificate request, the client sends a random byte string encrypted with the client's private key, together with the client's digital certificate, or a no digital certificate alert. This alert is only a warning, but with some implementations the handshake fails if client authentication is mandatory.
+6.The SSL or TLS server verifies the client's certificate. For more information, see How SSL and TLS provide identification, authentication, confidentiality, and integrity.
+7.The SSL or TLS client sends the server a finished message, which is encrypted with the secret key, indicating that the client part of the handshake is complete.
+8.The SSL or TLS server sends the client a finished message, which is encrypted with the secret key, indicating that the server part of the handshake is complete.
+9.For the duration of the SSL or TLS session, the server and client can now exchange messages that are symmetrically encrypted with the shared secret key.
+
+----------------------------------------------------------------------------------------------------
+
+
+8) TLS Vulnerabilities
+SSL3.0 and TLS1.0 are vulnerable. TLS v1.1 and v1.2 are more secure versions
+Weak Ciphers, Hearthbleed, BEAST, Breach, Freak etc.
+
+POODLE:  
+Name: Padding Oracle On Downgraded Legacy Encryption 
+Date: published in October 2014 - CVE-2014-3566
+Vulnerability: any system or application that supports SSL 3.0 with CBC mode ciphers  
+Result: By exploiting this vulnerability, an attacker can gain access to sensitive data passed within the encrypted web session, (eg: passwords, cookies and other authentication tokens)
+
+BEAST:
+Name: Browser Exploit Against SSL/TLS
+Date: Published in September 2011 - CVE-2011-3389
+Vulnerability: SSL 3.0 and TLS 1.0  with Cipher Block Chaining (CBC) mode 
+Explanation: The attacker uses MITM to inject packets into the TLS stream. This allows them to guess the Initialization Vector (IV) used with the injected message and then simply compare the results to the ones of the block that they want to decrypt.
+
+Hearthbleed:
+Vulnerable: heartbeat extension of the OpenSSL library
+Date:  CVE-2014-0160
+Explanation: The Heartbleed bug allows anyone on the Internet to read the memory of the systems protected by the vulnerable versions of the OpenSSL software. This compromises the secret keys used to identify the service providers and to encrypt the traffic, the names and passwords of the users and the actual content. This allows attackers to eavesdrop on communications, steal data directly from the services and users and to impersonate services and users.
+
+----------------------------------------------------------------------------------------------------
+
+9) What’s the difference between Diffie-Hellman and RSA?
+
+Diffie-Hellman: a key-exchange protocol 
+a method of exchanging cryptographic keys
+establishes a shared secret that can be used for secret communications
+vulnerable to Man-in-the-middle attack
+
+RSA: an encryption/signing protocol
+sender encrypts the data to be transferred using the public key of the recipient
+receiver decrypts the encrypted data using his private key
+
+----------------------------------------------------------------------------------------------------
+
+10) What is an IV used for in encryption?
+An IV is used to initiate encryption by providing an addition (third) input in addition to the cleartext and the key. In general you want IVs that are random and unpredictable, which are used only once for each message. The goal is to ensure that two messages encrypted with the same key do not result in the same ciphertext.
+
+----------------------------------------------------------------------------------------------------
+
+11) What are some common block cipher modes?
+ECB (Electronic Code Book) 
+CBC (Cipher Block Chaining)
+
+----------------------------------------------------------------------------------------------------
+
+12) What’s the main difference in security between ECB  and CBC?
+ECB just does a one-to-one lookup for encryption, without using an IV, which makes it fairly easy to attack using a chosen-plaintext attack. 
+CBC uses an IV for the first block and then propagates the XOR of the previous block onto subsequent ones. In CBC, previous cipher block is given as input to next encryption algorithm after XOR with original plaintext block. In a nutshell here, a cipher block is produced by encrypting a XOR output of previous cipher block and present plaintext block.
+
+----------------------------------------------------------------------------------------------------
+
+13) What’s more secure, SSL, TLS, or HTTPS?
+SSL (Secure Sockets Layer) is the old version of TLS (Transport Layer Security)
+TLS is the standard technology that encrypts the traffic between client and server to prevent anyone eavesdropping the traffic to read the communication
+HTTP is the protocol used by the browser and web servers to communicate and exchange information. When that exchange of data is encrypted with SSL/TLS, then we call it HTTPS. The "S" stands for "Secure".
+
+----------------------------------------------------------------------------------------------------
+
+14) What is PKI
+A public key infrastructure (PKI) is a set of roles, policies, and procedures needed to create, manage, distribute, use, store, and revoke digital certificates and manage public-key encryption.
+
+Asymmetric encryption:
+ssh-keygen is a tool for creating new authentication key pairs for SSH
+
+The private key must not be shared to others  (~/.ssh/id_rsa)
+the public key can be shared with anyone (~/.ssh/id_rsa.pub)
+
+Digital Signatures are generated by two steps.
+
+Get the digest of the message
+Use sender’s private key to encrypt the digest
+
+Real-life example:
+Alice goes to the government authority, shows her ID card and tell the authority her public key.
+The government then issues a certificate (the government’s signature is on the certificate) proving that this submitted public key is truely from Alice.
+Bob must trust the government, so that he could trust the certificate issued by the government proving Alice’s public key. Otherwise, the public key is not trustable.
+
+The two most common forms of PKI are PGP (Pretty Good Privacy) and S/MIME (Secure/Multipurpose Internet Mail Extensions). 
+The other major use for PKI is a web server authenticating and encrypting communications back and forth between a client — an SSL/TLS certificate 
+CAs (DigiCert, Comodo, LetsEncrypt) - create paired keys for websites to use to both verify that they are who they say they are, and to encrypt traffic between a client and a server
+
+15) X.509 certificates
+An X.509 certificate is a digital certificate that uses the widely accepted international X.509 public key infrastructure (PKI) standard to verify that a public key belongs to the user, computer or service identity contained within the certificate.
+
+16) Digital Certificates 
+A common use for public-key cryptography is encrypting application traffic using a Secure Socket Layer (SSL) by configuring Apache to provide HTTPS
+A Certificate is a method used to distribute a public key and other information about a server and the organization who is responsible for it. 
+Certificates can be digitally signed by a Certification Authority, or CA. 
+A CA is a trusted third party that has confirmed that the information contained in the certificate is accurate.
+
+To set up a secure server using public-key cryptography, in most cases, you send your certificate request (including your public key), proof of your company's identity, and payment to a CA. 
+The CA verifies the certificate request and your identity, and then sends back a certificate for your secure server.
+
+17) Certificate Creation
+Create a private and public encryption key pair.
+Create a certificate request based on the public key. The certificate request contains information about your server and the company hosting it.
+Send the certificate request, along with documents proving your identity, to a CA.
+When the CA is satisfied that you are indeed who you claim to be, they send you a digital certificate.
+Install this certificate on your secure server, and configure the appropriate applications to use the certificate.
+
+# create a private key and enter your passphrase
+openssl genrsa -des3 -out server.key 2048
+
+# create the insecure key, the one without a passphrase
+openssl rsa -in server.key -out server.key.insecure
+mv server.key server.key.secure
+mv server.key.insecure server.key
+
+# generate the CSR with passphrase & enter Company Name, Site Name, Email Id, etc. 
+openssl req -new -key server.key -out server.csr
+
+# You can now submit this CSR file to a CA for processing. The CA will use this CSR file and issue the certificate.
+
+# creating a self-signed certificate
+openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+
+# copy the private key and certificate to your server
+cp server.crt /etc/ssl/certs
+cp server.key /etc/ssl/private
+
