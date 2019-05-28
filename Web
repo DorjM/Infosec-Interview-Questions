@@ -1,0 +1,64 @@
+1) What is CSRF?
+Cross Site Request Forgery is a web application vulnerability in which the server does not check whether the request came from a 
+trusted client or not.
+when an attacker gets a victim’s browser to make requests, ideally with their credentials included, without their knowing. 
+
+---------------------------------------------------------------------------
+
+2) What is XSS?
+XSS is when attackers get victim's browsers to execute some code (usually JavaScript) within their browser
+Types: Stored, Reflected
+Stored XSS is some code that an attacker was able to persist in a database and gets retrieved and presented to victims (e.g. forum)
+Reflected XSS is usually in the form of a maliciously crafted URL which includes the malicious code. When the user clicks on the link, 
+the code runs in their browser
+
+Countermeasures of XSS are input validation, implementing a CSP (Content security policy)
+
+---------------------------------------------------------------------------
+
+3) SQL Injection 
+SQL injection is a web security vulnerability that allows an attacker to interfere with the queries that an application makes to 
+its database.
+
+Types of SQL Injection
+Classic SQLi (Error-based, UNION-based)
+Blind SQLi (Boolean-based, Time-based)
+
+---------------------------------------------------------------------------
+
+4) How to Prevent Brute Forcing?
+
+Account Lockouts/timeouts
+API rate limiting
+IP restrictions
+Fail2ban
+
+---------------------------------------------------------------------------
+
+5) Web Server Hardening
+Update/Patch the web server software
+Minimize the server functionality disable extra modules
+Delete default data/scripts
+Increase logging verboseness
+Update Permissions/Ownership of files
+
+---------------------------------------------------------------------------
+
+6) How does HTTP handle state?
+
+HTTP is stateless
+State is stored in cookies
+
+---------------------------------------------------------------------------
+
+7) Response codes
+
+1xx - Informational responses
+2xx - Success
+3xx - Redirection
+4xx - Client side error
+5xx - Server side error
+
+---------------------------------------------------------------------------
+
+to be continued ... 
