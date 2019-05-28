@@ -1,0 +1,53 @@
+1) How to change DNS settings in Linux?
+
+Linux:
+/etc/resolv.conf
+add a line of "nameserver x.x.x.x"
+
+----------------------------------------------------------------------------------------------
+
+2) How to change DNS settings in Windows:
+Control Panel -> Network and Sharing Center -> Change adapter settings
+Right-click on the adapter you want to configure and select 'properties.'
+Double-Click on TCP/IPv4 
+Change the DNS settings to the server(s) you want, and apply your changes.
+
+----------------------------------------------------------------------------------------------
+
+3) Linux Server Hardening List
+
+Account: (disabling guest/anonymous accounts, unique id, no generic/shared account, )
+Password: (Change default passwords, set expiration dates and password length)
+File System (no unnecessary shares, file permissions are checked)
+Applications (Logging, File Integrity Monitoring, Antivirus) 
+Services: (disable unnecessary functionality and services)
+System: (Use a Central NTP server, Check Crontab for scheduled tasks )
+Remote Access (secure method - ssh, set session timeout, use VPN)
+Network (disable Insecure services, no unnecessary services)
+
+----------------------------------------------------------------------------------------------
+
+4) Windows Hardening List
+Patches (Automated updates for Win and 3rd party apps, vulnerability scans)
+Anti-virus
+Account (LDAP, Kereberos Domain Authentication, )
+Application (only approved applications installed, Anti-virus, Logging)
+Password (et expiration dates and password length, remember password history, )
+Logs (enable Audit Policy, send to a central loggin server)
+Network: (Firewalls in place, disable unnecessary functionality and services) 
+Remote Access (RDP encryption level, limit remote access to specific IP addresses)
+Shares (Remove unnecessary shares)
+System (Use a Central NTP server)
+Backup (enable backup schedule)
+
+----------------------------------------------------------------------------------------------
+
+5) Differences of security win 7 vs win 10?
+
+----------------------------------------------------------------------------------------------
+
+6) What are the most known SMB vulnerabilities?
+
+----------------------------------------------------------------------------------------------
+
+to be continued...
